@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Events\OrderPlaced;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -10,7 +10,7 @@ class OrderController extends Controller
 {
     public function invoice()
     {
-        // Membuat data simulasi (dummy) pesanan agar sesuai dengan View BKPM
+     
         $invoice = (object) [
             'id' => 'INV-001',
             'created_at' => Carbon::now(),
@@ -33,7 +33,8 @@ class OrderController extends Controller
 
         // Memuat view dan merender PDF
         $pdf = Pdf::loadView('invoices.invoice', ['invoice' => $invoice]);
-        
+        $user = (object) ['id' => 1, 'name' => 'Juve'];
+event(new OrderPlaced($invoice, $user));
         // Mengunduh file PDF
         return $pdf->download('invoice_' . $invoice->id . '.pdf');
     }

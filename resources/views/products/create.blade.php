@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Tambah Produk</title>
+    @vite(['resources/js/app.js'])
 </head>
 <body style="padding: 20px; font-family: Arial;">
 
@@ -24,6 +25,15 @@
         <p>Gambar (Maks 2MB): <br><input type="file" name="image" accept="image/*"></p>
         <button type="submit">Simpan Produk</button>
     </form>
+
+    <script type="module">
+    // Menggunakan ID user 1 sebagai contoh karena belum ada sistem login
+    window.Echo.channel('user.1')
+        .listen('.order.placed', (e) => {
+            alert('Order #' + e.order_id + ' telah ditempatkan! Total: Rp ' + e.total);
+            console.log('Order Placed:', e);
+        });
+</script>
 
 </body>
 </html>
